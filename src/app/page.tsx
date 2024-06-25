@@ -1,15 +1,12 @@
 import { Header } from "../app/components/header/index";
-import { Footer } from "../app/components/Footer/index";
 
-import SampleForm from "./components/sampleForm";
-import SampleFormTest from "./components/FormStep/business-representative/businessRepresentative";
-import BankDetails from "./components/FormStep/bank-details/bankdetails";
-import Authenticate from "./components/FormStep/Authenticator/authenticate";
+
+
 import { Sidebar } from "./components/Sidebar";
 import { FormStepProvider } from "./components/contexts/form-step";
 import { FormStep } from "./components/FormStep";
 
-import { useContext, useState } from "react";
+
 
 export default function Home() {
   return (
