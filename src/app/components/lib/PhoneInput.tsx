@@ -5,7 +5,7 @@ import * as React from "react";
 import * as RPNInput from "react-phone-number-input";
 
 import flags from "react-phone-number-input/flags";
-
+type E164Number = string;
 import { Button } from "@camped-ui/button";
 import {
   Command,
@@ -26,7 +26,8 @@ type PhoneInputProps = Omit<
   "onChange" | "value"
 > &
   Omit<RPNInput.Props<typeof RPNInput.default>, "onChange"> & {
-    onChange?: (value: RPNInput.Value) => void;
+    // onChange?: (value: RPNInput.Value) => void;
+    onChange?: (value: E164Number | undefined) => void;
   };
 
 const PhoneInput: React.ForwardRefExoticComponent<PhoneInputProps> =
