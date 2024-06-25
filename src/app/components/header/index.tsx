@@ -9,7 +9,7 @@ import { ModeToggle } from "../mode";
 
 export function Header() {
   return (
-    <header className="p-4 bg-white flex justify-between items-center border-b-2">
+    <header className="p-4 flex justify-between items-center border-b-2">
       <div className="flex items-center gap-5">
         <Button variant="outline" size="icon">
           <ChevronLeft className="h-4 w-4" />
@@ -19,7 +19,6 @@ export function Header() {
           <p className="text-indigo-500 text-xs">In progress</p>{" "}
         </div>
       </div>
-
       <ModeToggle />
     </header>
   );
