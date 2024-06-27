@@ -28,6 +28,7 @@
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
     "react-phone-number-input": "^3.4.3",
     "yarn": "^1.22.22",
     "zod": "^3.23.8"

@@ -10,11 +10,11 @@ import BusinessStructure from "./business-structure/businessStructure";
 const steps = [
   {
     step: 1,
-    component: BusinessRepresentative,
+    component: BusinessStructure,
   },
   {
     step: 2,
-    component: BusinessStructure,
+    component: BusinessRepresentative,
   },
   {
     step: 3,

@@ -28,16 +28,26 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@camped-ui/select";
+import { useLocalStorage } from "../../hooks/use-local-storage";
+import { useFormStep } from "../../hooks/use-form-step";
+
 
 
 
 const FormSchema = z.object({});
 type Inputs = z.infer<typeof FormSchema>;
 
+
 export default function Complete() {
+  const {
+    getValueFromLocalStorage,
+    saveValueToLocalStorage,
+    removeValueFromLocalStorage,
+  } = useLocalStorage();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
+   
 
   // const {
   //   register,
@@ -52,11 +62,35 @@ export default function Complete() {
   function onSubmit(values: z.infer<typeof FormSchema>) {
     console.log(values);
   }
+  const { handleNextStep }: any = useFormStep();
+  function handleLast() {
+     form.reset({ Type: '' });
+     form.reset({ businessAddress: "" });
+     form.reset({ brcity: "" });
+     form.reset({ braddress1: "" });
+     form.reset({ braddress2: "" });
+     form.reset({ brzip: "" });
+     form.reset({ address1: "" });
+     form.reset({ address2: '' });
+     form.reset({ zip: "" });
+     form.reset({ city: "" });
+     form.reset({ useSMS: "" });
+     form.reset({ useAuthenticator: "" });
+     form.reset({ Iban: "" });
+     form.reset({ confirmIban: "" });
+     form.reset({ currency: "" });
+     form.reset({ country: "" });
+    handleNextStep();
+  }
+ 
   return (
     <div className="flex flex-col justify-between">
       <div className="">
         <Form {...form}>
-          <form className="py-12 w-full mx-4" onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            className="py-12 w-full px-4"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <>
               <h2 className="text-base font-semibold leading-7 text-gray-900">
                 Complete
@@ -66,7 +100,14 @@ export default function Complete() {
               </p>
             </>
 
-            <Button type="submit">Continue</Button>
+            <Button
+              type="submit"
+              onClick={handleLast}
+              className="w-full mx-auto mt-8"
+            >
+              Continue
+              <ChevronRight />
+            </Button>
           </form>
         </Form>
       </div>

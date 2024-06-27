@@ -24,11 +24,11 @@ export function Step({ step, isActive = false, isCurrent = true }: StepProps) {
     >
       <div
         className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 ease-in-out ${
-          isActive
+          isActive || (isCurrent && step.number === 5)
             ? "border-green-500 bg-green-500"
             : isCurrent
             ? "border-blue-500 bg-blue-500"
-            : ''
+            : ""
         }`}
       >
         <span
@@ -40,7 +40,7 @@ export function Step({ step, isActive = false, isCurrent = true }: StepProps) {
       <div className="hidden sm:flex sm:flex-col sm:gap-1 transition-opacity duration-300 ease-in-out">
         <span
           className={`text-xs font-medium leading-3 transition-colors duration-300 ease-in-out ${
-            isActive
+            isActive || (isCurrent && step.number === 5)
               ? "text-green-500"
               : isCurrent
               ? "text-blue-500"
@@ -58,3 +58,5 @@ export function Step({ step, isActive = false, isCurrent = true }: StepProps) {
     </div>
   );
 }
+
+

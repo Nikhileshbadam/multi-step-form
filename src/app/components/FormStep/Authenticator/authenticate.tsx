@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { z } from "zod";
 import { authenticateSchema } from "../../lib/schema";
@@ -28,7 +28,7 @@ import {
 } from "@camped-ui/select";
 
 import { useFormStep } from "../../hooks/use-form-step";
-  
+import { useLocalStorage } from "../../hooks/use-local-storage";
 
 // const FormSchema = z.object({
 //   useSMS: z.string().min(1, "sms is required"),
@@ -36,23 +36,18 @@ import { useFormStep } from "../../hooks/use-form-step";
 // });
 type Inputs = z.infer<typeof authenticateSchema>;
 
-
- 
-
-
-
 export default function Authenticate() {
-    const { handleNextStep }:any = useFormStep();
-  
+  const { saveValueToLocalStorage } = useLocalStorage();
+  const { handleNextStep }: any = useFormStep();
+
   const form = useForm<z.infer<typeof authenticateSchema>>({
     resolver: zodResolver(authenticateSchema),
   });
-  
-  
-
+  console.log("values awvawefv", form.getValues());
 
   function onSubmit(values: z.infer<typeof authenticateSchema>) {
     console.log(values);
+    saveValueToLocalStorage("Auth details", JSON.stringify(values));
     handleNextStep();
   }
   return (
@@ -60,18 +55,36 @@ export default function Authenticate() {
       <div className="">
         <Form {...form}>
           <form
-            className="py-12 w-full m-4"
+            className="py-12 w-full px-4"
             onSubmit={form.handleSubmit(onSubmit)}
           >
-            
-              <div>
-              
-
-                <div className="gap-y-8 sm:grid-cols-6">
+            <div>
+              <div className="gap-y-8 sm:grid-cols-6">
+                <div className="sm:col-span-2">
+                  <FormField
+                    control={form.control}
+                    name="useAuthenticator"
+                    key="useAuthenticator"
+                    render={({ field }) => (
+                      <FormItem className="mb-4">
+                        <FormControl>
+                          <Input
+                            type="text"
+                            placeholder="Use Authenticator"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <div className="sm:col-span-2">
                   <div className="sm:col-span-2">
                     <FormField
                       control={form.control}
                       name="useSMS"
+                      key="useSMS"
                       render={({ field }) => (
                         <FormItem className="mb-4">
                           <FormControl>
@@ -86,32 +99,11 @@ export default function Authenticate() {
                       )}
                     />
                   </div>
-                  <div className="sm:col-span-2">
-                    <div className="sm:col-span-2">
-                      <FormField
-                        control={form.control}
-                        name="useAuthenticator"
-                        render={({ field }) => (
-                          <FormItem className="mb-4">
-                            <FormControl>
-                              <Input
-                                type="text"
-                                placeholder="Use Authenticator"
-                                {...field}
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
                 </div>
               </div>
-            
-            <Button type="submit">
-              Continue
-            </Button>
+            </div>
+
+            <Button type="submit">Continue</Button>
           </form>
         </Form>
       </div>

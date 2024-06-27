@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { z } from "zod";
 import { businessStructureSchema } from "../../lib/schema";
@@ -11,6 +11,7 @@ import { ChevronLeft } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { Input } from "@camped-ui/input";
 import { isValidPhoneNumber } from "react-phone-number-input";
+import { useLocalStorage } from "../../hooks/use-local-storage";
 import {
   Form,
   FormControl,
@@ -47,30 +48,38 @@ import { useFormStep } from "../../hooks/use-form-step";
 // });
 type Inputs = z.infer<typeof businessStructureSchema>;
 
-
 export default function BusinessStructure() {
-  const form = useForm<z.infer<typeof businessStructureSchema>>({
+  const { saveValueToLocalStorage } = useLocalStorage();
+  const form1 = useForm<z.infer<typeof businessStructureSchema>>({
     resolver: zodResolver(businessStructureSchema),
   });
 
-
   const { handleNextStep }: any = useFormStep();
+  console.log("values awvawefv", form1.getValues());
   function onSubmit(values: z.infer<typeof businessStructureSchema>) {
     console.log(values);
+    saveValueToLocalStorage(
+      "business structure details",
+      JSON.stringify(values)
+    );
     handleNextStep();
   }
   return (
     <div className=" flex flex-col justify-between">
       <div className="">
-        <Form {...form}>
-          <form className="py-12 w-full m-4" onSubmit={form.handleSubmit(onSubmit)}>
+        <Form {...form1}>
+          <form
+            className="py-12 w-full px-4"
+            onSubmit={form1.handleSubmit(onSubmit)}
+          >
             <div>
               <div className="gap-y-8 ">
                 <div className="flex justify-between gap-2">
                   <div className="mt-2 w-full">
                     <FormField
-                      control={form.control}
+                      control={form1.control}
                       name="firstName"
+                      key="firstName"
                       render={({ field }) => (
                         <FormItem className="mb-4">
                           <FormLabel>First Name</FormLabel>
@@ -88,8 +97,9 @@ export default function BusinessStructure() {
                   </div>
                   <div className="mt-2 w-full">
                     <FormField
-                      control={form.control}
+                      control={form1.control}
                       name="lastName"
+                      key="lastName"
                       render={({ field }) => (
                         <FormItem className="mb-4">
                           <FormLabel>Last Name</FormLabel>
@@ -108,8 +118,9 @@ export default function BusinessStructure() {
                 </div>
                 <div className="mt-2">
                   <FormField
-                    control={form.control}
+                    control={form1.control}
                     name="email"
+                    key="email"
                     render={({ field }) => (
                       <FormItem className="mb-4">
                         <FormLabel>Email</FormLabel>
@@ -124,26 +135,30 @@ export default function BusinessStructure() {
 
                 <div className="mt-2">
                   <FormField
-                    control={form.control}
+                    control={form1.control}
                     name="address1"
-                    render={({ field }) => (
-                      <FormItem className="mb-4">
-                        <FormLabel>Address</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="text"
-                            placeholder="Adress line 1"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    key="address1"
+                    render={({ field }) => {
+                      return (
+                        <FormItem className="mb-4">
+                          <FormLabel>Address</FormLabel>
+                          <FormControl>
+                            <Input
+                              type="text"
+                              placeholder="Adress line 1"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      );
+                    }}
                   />
                 </div>
                 <FormField
-                  control={form.control}
+                  control={form1.control}
                   name="address2"
+                  key="address2"
                   render={({ field }) => (
                     <FormItem className="mb-4">
                       <FormControl>
@@ -158,8 +173,9 @@ export default function BusinessStructure() {
                   )}
                 />
                 <FormField
-                  control={form.control}
+                  control={form1.control}
                   name="city"
+                  key="city"
                   render={({ field }) => (
                     <FormItem className="mb-4">
                       <FormControl>
@@ -170,8 +186,9 @@ export default function BusinessStructure() {
                   )}
                 />
                 <FormField
-                  control={form.control}
+                  control={form1.control}
                   name="zip"
+                  key="zip"
                   render={({ field }) => (
                     <FormItem className="mb-4">
                       <FormControl>
@@ -182,11 +199,12 @@ export default function BusinessStructure() {
                   )}
                 />
                 <FormField
-                  control={form.control}
+                  control={form1.control}
                   name="phone"
+                  key="phone"
                   render={({ field }) => (
                     <FormItem className="flex flex-col items-start">
-                      <FormLabel className="text-left">Phone Number</FormLabel>
+                      <FormLabel className="text-left mb-4 mt-4">Phone Number</FormLabel>
                       <FormControl className="w-full">
                         <PhoneInput
                           placeholder="Enter a phone number"
@@ -198,11 +216,11 @@ export default function BusinessStructure() {
                     </FormItem>
                   )}
                 />
-                <div className="mt-4 w-full ">
-                  <Button type="submit">
-                    Continue
-                  </Button>
-                </div>
+
+                <Button type="submit" className="w-full mx-auto mt-8">
+                  Continue
+                  <ChevronRight />
+                </Button>
               </div>
             </div>
           </form>

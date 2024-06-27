@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useLocalStorage } from "../hooks/use-local-storage";
 
 type FormStepContextData = {
-  currentStep: number|0;
+  currentStep: number | 0;
   steps: { title: string; number: number }[];
   handleNextStep: () => void;
   handlePreviousStep: () => void;
@@ -11,7 +11,7 @@ type FormStepContextData = {
 };
 
 export const FormStepContext = createContext({
-  currentStep: 2,
+  currentStep: 1,
   steps: [],
   handleNextStep: () => {},
   handlePreviousStep: () => {},
@@ -21,7 +21,6 @@ export const FormStepContext = createContext({
 interface FormStepProviderProps {
   children: React.ReactNode;
 }
-
 
 export const FormStepProvider = ({ children }: FormStepProviderProps) => {
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -33,8 +32,11 @@ export const FormStepProvider = ({ children }: FormStepProviderProps) => {
     { title: "Complete", number: 5 },
   ]);
 
-  const { getValueFromLocalStorage, saveValueToLocalStorage } =
-    useLocalStorage();
+  const {
+    getValueFromLocalStorage,
+    saveValueToLocalStorage,
+    removeValueFromLocalStorage,
+  } = useLocalStorage();
 
   useEffect(() => {
     const step = getValueFromLocalStorage("currentStep");
@@ -43,9 +45,18 @@ export const FormStepProvider = ({ children }: FormStepProviderProps) => {
 
   const handleNextStep = () => {
     const newStepValue = currentStep + 1;
+
     if (currentStep < steps.length) {
       setCurrentStep(newStepValue);
       saveValueToLocalStorage("currentStep", `${newStepValue}`);
+    } else {
+      removeValueFromLocalStorage("business structure details");
+      removeValueFromLocalStorage("business representative details");
+      removeValueFromLocalStorage("Bank details");
+      removeValueFromLocalStorage("Auth details");
+
+      setCurrentStep(1);
+      saveValueToLocalStorage("currentStep", `1`);
     }
   };
 
@@ -77,6 +88,6 @@ export const FormStepProvider = ({ children }: FormStepProviderProps) => {
   );
 };
 
-export function useFormContext(){
+export function useFormContext() {
   return useContext(FormStepContext);
 }

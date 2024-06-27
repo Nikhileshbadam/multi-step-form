@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { z } from "zod";
 import { bankDetailsSchema } from "../../lib/schema";
@@ -10,6 +10,7 @@ import { Button } from "@camped-ui/button";
 import { ChevronLeft } from "lucide-react";
 import { ChevronRight } from "lucide-react";
 import { Input } from "@camped-ui/input";
+import toast from "react-hot-toast";
 import {
   Form,
   FormControl,
@@ -26,8 +27,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@camped-ui/select";
-
+import { useLocalStorage } from "../../hooks/use-local-storage";
 import { useFormStep } from "../../hooks/use-form-step";
+import {  useWatch } from "react-hook-form";
 
 // const FormSchema = z.object({
 //   currency: z.string().min(1, "currency is required"),
@@ -40,31 +42,48 @@ type Inputs = z.infer<typeof bankDetailsSchema>;
 
 
 export default function BankDetails() {
+   const { saveValueToLocalStorage } = useLocalStorage();
   const form = useForm<z.infer<typeof bankDetailsSchema>>({
     resolver: zodResolver(bankDetailsSchema),
   });
+
  
   
 
  
    const { handleNextStep }: any = useFormStep();
+    const { Iban, confirmIban } =
+      form.getValues();
+    console.log("values awvawefv", form.getValues());
   function onSubmit(values: z.infer<typeof bankDetailsSchema>) {
     console.log(values);
-    handleNextStep();
+    if(Iban === confirmIban){
+       saveValueToLocalStorage("Bank details", JSON.stringify(values));
+
+       handleNextStep();
+
+    }
+    else{
+       toast.error("Ibans do not match");
+       console.log('not match')
+    }
+   
   }
   return (
     <div className="  flex flex-col justify-between">
       <div className="">
         <Form {...form}>
-          <form className=" py-12 w-full" onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            className=" py-12 w-full px-4"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <div>
-            
-
               <div className="gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-3">
                   <FormField
                     control={form.control}
                     name="currency"
+                    key="currency"
                     render={({ field }) => (
                       <FormItem className="mb-4">
                         <FormLabel>Currency</FormLabel>
@@ -92,6 +111,7 @@ export default function BankDetails() {
                   <FormField
                     control={form.control}
                     name="country"
+                    key="country"
                     render={({ field }) => (
                       <FormItem className="mb-4">
                         <FormLabel>Country</FormLabel>
@@ -122,6 +142,7 @@ export default function BankDetails() {
                   <FormField
                     control={form.control}
                     name="Iban"
+                    key="Iban"
                     render={({ field }) => (
                       <FormItem className="mb-4">
                         <FormLabel>IBAN</FormLabel>
@@ -138,6 +159,7 @@ export default function BankDetails() {
                     <FormField
                       control={form.control}
                       name="confirmIban"
+                      key="confirmIban"
                       render={({ field }) => (
                         <FormItem className="mb-4">
                           <FormControl>
@@ -156,7 +178,10 @@ export default function BankDetails() {
               </div>
             </div>
 
-            <Button type="submit">Continue</Button>
+            <Button type="submit" className="w-full mx-auto mt-8">
+              Continue
+              <ChevronRight />
+            </Button>
           </form>
         </Form>
       </div>

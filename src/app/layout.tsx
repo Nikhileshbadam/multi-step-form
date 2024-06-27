@@ -22,6 +22,7 @@
 // }
 import { ThemeProvider } from "./components/theme-provider";
 import "./globals.css";
+import { Toaster } from "react-hot-toast";
 
 // export default function RootLayout({ children }: RootLayoutProps) {
   export default function RootLayout({
@@ -42,6 +43,14 @@ import "./globals.css";
             >
               {children}
             </ThemeProvider>
+            <Toaster
+              position="bottom-center"
+              toastOptions={{
+                custom: {
+                  duration: 2000,
+                },
+              }}
+            />
           </body>
         </html>
       </>
