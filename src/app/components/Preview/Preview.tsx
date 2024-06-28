@@ -99,16 +99,18 @@ export function Preview() {
       const { getValueFromLocalStorage } = useLocalStorage();
       const [lastStepState ,setlastStepState] = useState(true)
       function checkCurrentStep(){
-        const lastStep = getValueFromLocalStorage(
-          steps[steps.length - 2].title
-        );
-        console.log("lastStep", lastStep);
-        if(lastStep!=null){
-            setlastStepState(true)
-        }
-        else{
+        setTimeout(() => {
+          const lastStep = getValueFromLocalStorage(
+            steps[steps.length - 2].title
+          );
+          console.log("lastStep", lastStep);
+
+          if (lastStep != null) {
+            setlastStepState(true);
+          } else {
             setlastStepState(false);
-        }
+          }
+        }, 500);
       }
      
        const {  steps } = useFormStep();
