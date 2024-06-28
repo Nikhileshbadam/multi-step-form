@@ -60,6 +60,7 @@ export const FormStepProvider = ({ children }: FormStepProviderProps) => {
       removeValueFromLocalStorage("Business Representative");
       removeValueFromLocalStorage("Bank Details");
       removeValueFromLocalStorage("2-step authentication");
+      removeValueFromLocalStorage("max");
 
       setCurrentStep(1);
       saveValueToLocalStorage("currentStep", `1`);
