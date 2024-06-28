@@ -32,16 +32,6 @@ import {
 import { useLocalStorage } from "../../hooks/use-local-storage";
 import { useFormStep } from "../../hooks/use-form-step";
 
-// const FormSchema = z.object({
-//   Type: z.string().min(1, "Type is required"),
-//   businessAddress: z.string().min(1, "businessAddress is required"),
-//   city: z.string().min(1, "City is required"),
-//   address1: z.string().min(1, "address line 1 is required"),
-//   address2: z.string().min(1, "address line 2 is required"),
-//   zip: z.string().min(1, "Zip is required"),
-
-// });
-
 export default function BusinessRepresentative() {
   const { saveValueToLocalStorage } = useLocalStorage();
   const form = useForm<z.infer<typeof businessRepresentativeSchema>>({
@@ -50,13 +40,9 @@ export default function BusinessRepresentative() {
 
   const { handleNextStep }: any = useFormStep();
 
-  console.log("values awvawefv", form.getValues());
   function onSubmit(values: z.infer<typeof businessRepresentativeSchema>) {
     console.log(values);
-    saveValueToLocalStorage(
-      "business representative details",
-      JSON.stringify(values)
-    );
+    saveValueToLocalStorage("Business Representative", JSON.stringify(values));
     handleNextStep();
   }
 
@@ -65,7 +51,7 @@ export default function BusinessRepresentative() {
       <div>
         <Form {...form}>
           <form
-            className="py-12 w-full px-4 "
+            className="py-8 w-full px-4 "
             onSubmit={form.handleSubmit(onSubmit)}
           >
             <div>
@@ -194,7 +180,7 @@ export default function BusinessRepresentative() {
                 />
               </div>
             </div>
-            <Button type="submit" className="w-full mx-auto mt-8">
+            <Button type="submit" className="w-full mx-auto mt-8 ">
               Continue
               <ChevronRight />
             </Button>

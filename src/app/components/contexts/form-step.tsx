@@ -47,13 +47,19 @@ export const FormStepProvider = ({ children }: FormStepProviderProps) => {
     const newStepValue = currentStep + 1;
 
     if (currentStep < steps.length) {
+      let max = 0;
+      if (currentStep > max) {
+        max = currentStep;
+        saveValueToLocalStorage("max", `${max}`);
+        console.log("max", max);
+      }
       setCurrentStep(newStepValue);
       saveValueToLocalStorage("currentStep", `${newStepValue}`);
     } else {
-      removeValueFromLocalStorage("business structure details");
-      removeValueFromLocalStorage("business representative details");
-      removeValueFromLocalStorage("Bank details");
-      removeValueFromLocalStorage("Auth details");
+      removeValueFromLocalStorage("Business Structure");
+      removeValueFromLocalStorage("Business Representative");
+      removeValueFromLocalStorage("Bank Details");
+      removeValueFromLocalStorage("2-step authentication");
 
       setCurrentStep(1);
       saveValueToLocalStorage("currentStep", `1`);
@@ -69,8 +75,11 @@ export const FormStepProvider = ({ children }: FormStepProviderProps) => {
   };
 
   const moveToStep = (step: number) => {
-    setCurrentStep(step);
-    saveValueToLocalStorage("currentStep", `${step}`);
+    const max = getValueFromLocalStorage("max");
+    if (step <= steps.length - 1 && step <= max + 1) {
+      setCurrentStep(step);
+      saveValueToLocalStorage("currentStep", `${step}`);
+    }
   };
 
   return (

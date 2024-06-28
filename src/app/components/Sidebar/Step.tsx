@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { useFormStep } from "../hooks/use-form-step";
 
 interface StepProps {
   step: {
@@ -7,9 +8,20 @@ interface StepProps {
   };
   isActive?: boolean;
   isCurrent?: boolean;
+ 
 }
 
 export function Step({ step, isActive = false, isCurrent = true }: StepProps) {
+  
+  const { moveToStep } = useFormStep();
+  const handleClick = (stepNumber: any) => {
+   
+
+
+    moveToStep(stepNumber);
+
+  };
+
   const determineColor = () => {
     if (isActive) return "green";
     if (isCurrent) return "blue";
@@ -17,9 +29,12 @@ export function Step({ step, isActive = false, isCurrent = true }: StepProps) {
   };
 
   const bgColor = determineColor();
+  
 
   return (
     <div
+      key={step.number}
+      onClick={() => handleClick(step.number)}
       className={`flex flex-row items-center justify-start gap-4 p-2 rounded-md transition-all duration-300 ease-in-out  hover:bg-sky-blue/10`}
     >
       <div
@@ -32,7 +47,12 @@ export function Step({ step, isActive = false, isCurrent = true }: StepProps) {
         }`}
       >
         <span
-          className={`text-lg font-bold transition-colors duration-300 ease-in-out `}
+          className={`text-lg font-bold transition-colors duration-300 ease-in-out ${
+            isActive || isCurrent
+              ? "text-white"
+              : ""
+             
+          }`}
         >
           {step.number}
         </span>

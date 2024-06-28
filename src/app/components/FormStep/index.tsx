@@ -11,22 +11,27 @@ const steps = [
   {
     step: 1,
     component: BusinessStructure,
+    title: "BUSINESS STRUCTURE",
   },
   {
     step: 2,
     component: BusinessRepresentative,
+    title: "BUSINESS REPRESENTATIVE",
   },
   {
     step: 3,
     component: BankDetails,
+    title: "BANK DETAILS",
   },
   {
     step: 4,
     component: Authenticate,
+    title: "2-STEP AUTHENTICATION",
   },
   {
     step: 5,
     component: Complete,
+    title: "",
   },
 ];
 
@@ -38,7 +43,8 @@ export function FormStep() {
   console.log("step", step);
 
   return (
-    <div className="flex flex-col flex-1 justify-between m-3/4">
+    <div className="lg:flex flex-col flex-1 justify-between m-3/4">
+      <p className="lg:hidden pl-4 pt-8 font-extrabold"> {step?.title}</p>
       {step && step.component()}
     </div>
   );

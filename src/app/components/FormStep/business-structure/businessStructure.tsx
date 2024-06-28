@@ -21,63 +21,38 @@ import {
   FormLabel,
   FormMessage,
 } from "@camped-ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@camped-ui/select";
 
 import { PhoneInput } from "../../lib/PhoneInput";
 import { useFormStep } from "../../hooks/use-form-step";
-
-// const FormSchema = z.object({
-//   firstName: z.string().min(1, "First name is required"),
-//   lastName: z.string().min(1, "Last name is required"),
-//   email: z.string().min(1, "Email is required").email("Invalid email address"),
-//   city: z.string().min(1, "City is required"),
-//   address1: z.string().min(1, "address line 1 is required"),
-//   address2: z.string().min(1, "address line 2 is required"),
-//   zip: z.string().min(1, "Zip is required"),
-//   phone: z
-//     .string()
-//     .refine(isValidPhoneNumber, { message: "Invalid phone number" })
-//     .or(z.literal("")),
-// });
 type Inputs = z.infer<typeof businessStructureSchema>;
 
 export default function BusinessStructure() {
   const { saveValueToLocalStorage } = useLocalStorage();
-  const form1 = useForm<z.infer<typeof businessStructureSchema>>({
+  const form = useForm<z.infer<typeof businessStructureSchema>>({
     resolver: zodResolver(businessStructureSchema),
   });
 
   const { handleNextStep }: any = useFormStep();
-  console.log("values awvawefv", form1.getValues());
+
   function onSubmit(values: z.infer<typeof businessStructureSchema>) {
     console.log(values);
-    saveValueToLocalStorage(
-      "business structure details",
-      JSON.stringify(values)
-    );
+    saveValueToLocalStorage("Business Structure", JSON.stringify(values));
     handleNextStep();
   }
   return (
     <div className=" flex flex-col justify-between">
       <div className="">
-        <Form {...form1}>
+        <Form {...form}>
           <form
-            className="py-12 w-full px-4"
-            onSubmit={form1.handleSubmit(onSubmit)}
+            className="py-8 w-full px-4"
+            onSubmit={form.handleSubmit(onSubmit)}
           >
             <div>
               <div className="gap-y-8 ">
                 <div className="flex justify-between gap-2">
                   <div className="mt-2 w-full">
                     <FormField
-                      control={form1.control}
+                      control={form.control}
                       name="firstName"
                       key="firstName"
                       render={({ field }) => (
@@ -97,7 +72,7 @@ export default function BusinessStructure() {
                   </div>
                   <div className="mt-2 w-full">
                     <FormField
-                      control={form1.control}
+                      control={form.control}
                       name="lastName"
                       key="lastName"
                       render={({ field }) => (
@@ -118,7 +93,7 @@ export default function BusinessStructure() {
                 </div>
                 <div className="mt-2">
                   <FormField
-                    control={form1.control}
+                    control={form.control}
                     name="email"
                     key="email"
                     render={({ field }) => (
@@ -135,7 +110,7 @@ export default function BusinessStructure() {
 
                 <div className="mt-2">
                   <FormField
-                    control={form1.control}
+                    control={form.control}
                     name="address1"
                     key="address1"
                     render={({ field }) => {
@@ -156,7 +131,7 @@ export default function BusinessStructure() {
                   />
                 </div>
                 <FormField
-                  control={form1.control}
+                  control={form.control}
                   name="address2"
                   key="address2"
                   render={({ field }) => (
@@ -173,7 +148,7 @@ export default function BusinessStructure() {
                   )}
                 />
                 <FormField
-                  control={form1.control}
+                  control={form.control}
                   name="city"
                   key="city"
                   render={({ field }) => (
@@ -186,7 +161,7 @@ export default function BusinessStructure() {
                   )}
                 />
                 <FormField
-                  control={form1.control}
+                  control={form.control}
                   name="zip"
                   key="zip"
                   render={({ field }) => (
@@ -199,12 +174,14 @@ export default function BusinessStructure() {
                   )}
                 />
                 <FormField
-                  control={form1.control}
+                  control={form.control}
                   name="phone"
                   key="phone"
                   render={({ field }) => (
                     <FormItem className="flex flex-col items-start">
-                      <FormLabel className="text-left mb-4 mt-4">Phone Number</FormLabel>
+                      <FormLabel className="text-left mb-4 mt-4">
+                        Phone Number
+                      </FormLabel>
                       <FormControl className="w-full">
                         <PhoneInput
                           placeholder="Enter a phone number"
@@ -217,7 +194,7 @@ export default function BusinessStructure() {
                   )}
                 />
 
-                <Button type="submit" className="w-full mx-auto mt-8">
+                <Button type="submit" className="w-full mx-auto mt-8 ">
                   Continue
                   <ChevronRight />
                 </Button>
