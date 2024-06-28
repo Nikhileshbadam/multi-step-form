@@ -8,18 +8,12 @@ interface StepProps {
   };
   isActive?: boolean;
   isCurrent?: boolean;
- 
 }
 
 export function Step({ step, isActive = false, isCurrent = true }: StepProps) {
-  
   const { moveToStep } = useFormStep();
   const handleClick = (stepNumber: any) => {
-   
-
-
     moveToStep(stepNumber);
-
   };
 
   const determineColor = () => {
@@ -29,7 +23,7 @@ export function Step({ step, isActive = false, isCurrent = true }: StepProps) {
   };
 
   const bgColor = determineColor();
-  
+  const { steps } = useFormStep();
 
   return (
     <div
@@ -39,7 +33,7 @@ export function Step({ step, isActive = false, isCurrent = true }: StepProps) {
     >
       <div
         className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 ease-in-out ${
-          isActive || (isCurrent && step.number === 5)
+          isActive || (isCurrent && step.number === steps.length)
             ? "border-green-500 bg-green-500"
             : isCurrent
             ? "border-blue-500 bg-blue-500"
@@ -48,10 +42,7 @@ export function Step({ step, isActive = false, isCurrent = true }: StepProps) {
       >
         <span
           className={`text-lg font-bold transition-colors duration-300 ease-in-out ${
-            isActive || isCurrent
-              ? "text-white"
-              : ""
-             
+            isActive || isCurrent ? "text-white" : ""
           }`}
         >
           {step.number}
@@ -60,7 +51,7 @@ export function Step({ step, isActive = false, isCurrent = true }: StepProps) {
       <div className="hidden sm:flex sm:flex-col sm:gap-1 transition-opacity duration-300 ease-in-out">
         <span
           className={`text-xs font-medium leading-3 transition-colors duration-300 ease-in-out ${
-            isActive || (isCurrent && step.number === 5)
+            isActive || (isCurrent && step.number === steps.length)
               ? "text-green-500"
               : isCurrent
               ? "text-blue-500"
@@ -78,5 +69,3 @@ export function Step({ step, isActive = false, isCurrent = true }: StepProps) {
     </div>
   );
 }
-
-

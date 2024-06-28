@@ -6,6 +6,7 @@ import BankDetails from "./bank-details/bankdetails";
 import BusinessRepresentative from "./business-representative/businessRepresentative";
 import Complete from "./Complete/complete";
 import BusinessStructure from "./business-structure/businessStructure";
+import { Preview } from "./Preview/Preview";
 
 const steps = [
   {
@@ -30,6 +31,10 @@ const steps = [
   },
   {
     step: 5,
+    component: Preview,
+  },
+  {
+    step: 6,
     component: Complete,
     title: "",
   },

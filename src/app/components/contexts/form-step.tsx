@@ -29,7 +29,8 @@ export const FormStepProvider = ({ children }: FormStepProviderProps) => {
     { title: "Business Representative", number: 2 },
     { title: "Bank Details", number: 3 },
     { title: "2-step authentication", number: 4 },
-    { title: "Complete", number: 5 },
+    { title: "Preview", number: 5 },
+    { title: "Complete", number: 6 },
   ]);
 
   const {

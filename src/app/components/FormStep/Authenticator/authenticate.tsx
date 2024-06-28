@@ -133,9 +133,8 @@ import toast from "react-hot-toast";
 type Inputs = z.infer<typeof authenticateSchema>;
 
 export default function Authenticate() {
-
   const { saveValueToLocalStorage } = useLocalStorage();
-  // const { handleNextStep }: any = useFormStep();
+  const { handleNextStep }: any = useFormStep();
 
   const form = useForm<z.infer<typeof authenticateSchema>>({
     resolver: zodResolver(authenticateSchema),
@@ -144,7 +143,7 @@ export default function Authenticate() {
   function onSubmit(values: z.infer<typeof authenticateSchema>) {
     console.log(values);
     saveValueToLocalStorage("2-step authentication", JSON.stringify(values));
-    //handleNextStep();
+    handleNextStep();
   }
   return (
     <div className="flex flex-col justify-between">
@@ -188,11 +187,11 @@ export default function Authenticate() {
               )}
             />
 
-            {/* <Button type="submit" className="w-full mx-auto mt-8 ">
+            <Button type="submit" className="w-full mx-auto mt-8 ">
               Continue
               <ChevronRight />
-            </Button> */}
-            <Preview />
+            </Button>
+            {/* <Preview /> */}
           </form>
         </Form>
       </div>
