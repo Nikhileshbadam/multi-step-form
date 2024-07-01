@@ -29,7 +29,8 @@ import { useFormStep } from "../../hooks/use-form-step";
 type Inputs = z.infer<typeof bankDetailsSchema>;
 
 export default function BankDetails() {
-  const { saveValueToLocalStorage } = useLocalStorage();
+  const { saveValueToLocalStorage, getValueFromLocalStorage } =
+    useLocalStorage();
   const form = useForm<z.infer<typeof bankDetailsSchema>>({
     resolver: zodResolver(bankDetailsSchema),
   });
@@ -38,7 +39,6 @@ export default function BankDetails() {
   const { Iban, confirmIban } = form.getValues();
 
   function onSubmit(values: z.infer<typeof bankDetailsSchema>) {
-    console.log(values);
     if (Iban === confirmIban) {
       saveValueToLocalStorage("Bank Details", JSON.stringify(values));
 

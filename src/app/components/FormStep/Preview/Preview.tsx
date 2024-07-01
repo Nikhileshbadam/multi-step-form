@@ -19,11 +19,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
 export function Preview() {
-  const { getValueFromLocalStorage } = useLocalStorage();
+  const { getValueFromLocalStorage, saveValueToLocalStorage } =
+    useLocalStorage();
   const FormSchema = z.object({});
-  function onSubmit(values: z.infer<typeof FormSchema>) {
-    console.log(values);
-  }
+  function onSubmit(values: z.infer<typeof FormSchema>) {}
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -66,6 +65,30 @@ export function Preview() {
                   </div>
                 ))}
               </div>
+              {/* <div>
+                <h2 className="text-center text-2xl mb-4">
+                  Review your details before submitting!
+                </h2>
+                <div>
+                  {Object.entries(getValueFromLocalStorage("Final data")).map(
+                    ([title, detail]) => (
+                      <div key={title} className="mb-8">
+                        <h1 className="font-bold mb-4 text-lg">{title}</h1>
+                        {Object.entries(detail).map(([key, value]) => (
+                          <div key={key} className="flex mb-2">
+                            <span className="font-bold flex-1">
+                              {key.charAt(0).toUpperCase() +
+                                key.slice(1).replace(/_/g, " ")}
+                            </span>
+                            <span className="font-bold mx-2">:</span>
+                            <span className="flex-1">{value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  )}
+                </div>
+              </div> */}
               <div className="flex justify-between gap-4">
                 <Button onClick={handlePreviousStep} className="w-1/2">
                   <ChevronLeft />

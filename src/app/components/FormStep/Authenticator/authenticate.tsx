@@ -133,7 +133,11 @@ import toast from "react-hot-toast";
 type Inputs = z.infer<typeof authenticateSchema>;
 
 export default function Authenticate() {
-  const { saveValueToLocalStorage } = useLocalStorage();
+  const {
+    saveValueToLocalStorage,
+    getValueFromLocalStorage,
+    removeValueFromLocalStorage,
+  } = useLocalStorage();
   const { handleNextStep }: any = useFormStep();
 
   const form = useForm<z.infer<typeof authenticateSchema>>({
@@ -141,8 +145,68 @@ export default function Authenticate() {
   });
 
   function onSubmit(values: z.infer<typeof authenticateSchema>) {
-    console.log(values);
     saveValueToLocalStorage("2-step authentication", JSON.stringify(values));
+    interface BusinessStructureInfo {
+      firstName: string;
+      lastName: string;
+      email: string;
+      city: string;
+      address1: string;
+      address2: string;
+      zip: string;
+      phone: string;
+    }
+
+    interface BankDetailsInfo {
+      currency: string;
+      Iban: string;
+      confirmIban: string;
+      country: string;
+    }
+
+    interface BusinessRepresentativeInfo {
+      Type: string;
+      braddress1: string;
+      braddress2: string;
+      brcity: string;
+      brzip: string;
+      businessAddress: string;
+    }
+    interface AuthenticateInfo {
+      currency: string;
+      Iban: string;
+      confirmIban: string;
+      country: string;
+    }
+
+    interface CombinedInfo {
+      businessStructureDetails: BusinessStructureInfo;
+      bankDetails: BankDetailsInfo;
+      businessRepresentativeDetails: BusinessRepresentativeInfo;
+      authenticateDetails: AuthenticateInfo;
+    }
+
+    const businessStructureDetails: BusinessStructureInfo =
+      getValueFromLocalStorage("Business Structure");
+
+    const bankDetails: BankDetailsInfo =
+      getValueFromLocalStorage("Bank Details");
+    const businessRepresentativeDetails: BusinessRepresentativeInfo =
+      getValueFromLocalStorage("Business Representative");
+    const authenticateDetails: AuthenticateInfo = getValueFromLocalStorage(
+      "2-step authentication"
+    );
+
+    const combinedInfo: CombinedInfo = {
+      businessStructureDetails: businessStructureDetails,
+      bankDetails: bankDetails,
+      businessRepresentativeDetails: businessRepresentativeDetails,
+      authenticateDetails: authenticateDetails,
+    };
+
+    // Output the combined object
+    console.log(combinedInfo);
+    saveValueToLocalStorage("Final data", JSON.stringify(combinedInfo));
     handleNextStep();
   }
   return (

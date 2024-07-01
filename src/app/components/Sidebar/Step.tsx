@@ -29,10 +29,10 @@ export function Step({ step, isActive = false, isCurrent = true }: StepProps) {
     <div
       key={step.number}
       onClick={() => handleClick(step.number)}
-      className={`flex flex-row items-center justify-start gap-4 p-2 rounded-md transition-all duration-300 ease-in-out  hover:bg-sky-blue/10`}
+      className={`flex flex-row items-center justify-start gap-4 p-2 rounded-md transition-all duration-300 ease-in-out  hover:bg-sky-blue/10 `}
     >
       <div
-        className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 ease-in-out ${
+        className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 ease-in-out overflow-x-auto ${
           isActive || (isCurrent && step.number === steps.length)
             ? "border-green-500 bg-green-500"
             : isCurrent
