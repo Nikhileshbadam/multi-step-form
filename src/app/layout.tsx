@@ -23,7 +23,7 @@
 import { ThemeProvider } from "./components/theme-provider";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // export default function RootLayout({ children }: RootLayoutProps) {
   export default function RootLayout({
